@@ -12,17 +12,17 @@ class DateParser:
     def parse_dates(self):
         strCFG = buildCFGString()  # the string representation of our CFG
         cfg = getCFG(strCFG)  # the actual nltk CFG
-        self.token_subarrays = getTokenSubArrays(self.tokens)  # all subarrays of length 5, which are fed to parser
+        self.token_subarrays = getTokenSubArrays(self.tokens)  # all subarrays of length 1 to 5, which are fed to parser
         self.parser = nltk.RecursiveDescentParser(cfg)  # parser used
 
     def print_dates(self):
-        print_parses('dates', self.parser, self.token_subarrays)  # iterate through subarrays, try to find date parse
+        print_parses('dates', self.parser, self.token_subarrays)  # iterate through subarrays, try to print date parses
 
 
 # we build the string representation of our CFG
 def buildCFGString():
     strCFG = initialCFGString()  # get the base CFG string
-    strCFG = addDaysToCFG(strCFG)  # add days to CFG, e.g. 1st
+    strCFG = addDaysToCFG(strCFG)  # add days to CFG, e.g. 1st, 5th
     strCFG = addDaysDigToCFG(strCFG)  # add days to CFG, e.g. 0, 05, 8
     strCFG = addFourDigYearsToCFG(strCFG)  # add years to CFG, e.g. 1990, 1800
     strCFG = addTwoDigYearsToCFG2(strCFG)  # add years to CFG, e.g. 90, 80, 35
@@ -65,6 +65,7 @@ def initialCFGString():
             "OF -> 'of'\n")
 
 
+# add days to CFG, e.g. 1st, 5th
 def addDaysToCFG(strCFG):
     strCFG = strCFG + 'DAY -> \'1st\' '
     for day in range(2, 32):
@@ -81,6 +82,7 @@ def addDaysToCFG(strCFG):
     return strCFG
 
 
+# add days to CFG, e.g. 0, 05, 8
 def addDaysDigToCFG(strCFG):
     strCFG = strCFG + 'DAYDIG -> \'0\' | \'00\''
     for day in range(1, 32):
@@ -91,6 +93,7 @@ def addDaysDigToCFG(strCFG):
     return strCFG
 
 
+# add years to CFG, e.g. 1990, 1800
 def addFourDigYearsToCFG(strCFG):
     strCFG = strCFG + 'FULLYEAR -> \'0000\''
     for year in range(1, 3000):
@@ -108,6 +111,7 @@ def addFourDigYearsToCFG(strCFG):
     return strCFG
 
 
+# add years to CFG, e.g. 90, 80, 35
 def addTwoDigYearsToCFG2(strCFG):
     strCFG = strCFG + 'YEAR -> \'00\''
     for year in range(1, 100):
@@ -122,10 +126,10 @@ def addTwoDigYearsToCFG2(strCFG):
 
 
 def getCFG(strCFG):
-    cfg = nltk.CFG.fromstring(strCFG)
-    return cfg
+    return nltk.CFG.fromstring(strCFG)
 
 
+# get a list of lists representing all subarrays of size 1 to 5. These subarrays are fed to the parser
 def getTokenSubArrays(tokens):
     limit = 5
     sub_arrays = []
@@ -140,6 +144,7 @@ def getTokenSubArrays(tokens):
     return sub_arrays
 
 
+# iterate subarrays, try to print parse trees
 def print_parses(name, parser, tokens_subarrays):
     print('\n\n**********', name, '**********')
     for subarray in tokens_subarrays:
@@ -149,6 +154,7 @@ def print_parses(name, parser, tokens_subarrays):
             pass
 
 
+# if there are any trees found, print them
 def printParsedTrees(parser, subarray):
     for tree in parser.parse(subarray):
         print(tree)
