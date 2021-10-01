@@ -12,7 +12,7 @@ def main():
     corpus = reuters
 
     # reuters corpus fileIDs to preprocess
-    fileIDs = ['training/267', 'test/16213', 'teFst/18066', 'training/4425', 'test/14826', 'test/15910']
+    fileIDs = ['training/267', 'test/16213', 'test/18066', 'training/4425', 'test/14826', 'test/15910']
     for fileID in fileIDs:
         pipeline = Pipeline(corpus, fileID)  # create pipeline
         pipeline.preprocess()  # preprocess text
