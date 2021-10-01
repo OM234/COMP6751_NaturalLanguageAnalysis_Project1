@@ -33,7 +33,7 @@ class Pipeline:
         print_pos_tags(self.pos_tags)
 
     def print_written_numbers(self):
-        self.number_parser.print_numbers(self.number_parser)
+        self.number_parser.print_numbers()
 
     def print_dates(self):
         self.date_parser.print_dates()
@@ -138,7 +138,7 @@ def print_tokens(tokens):
     print("********** tokens **********")
     for i in range(len(tokens)):
         if i % 10 == 9:
-            print('|\n')
+            print('|')
         print('|', tokens[i], end=' ')
 
 
@@ -152,6 +152,6 @@ def print_pos_tags(pos_tags):
     print("\n\n********** POS tags **********")
     for i in range(len(pos_tags)):
         if i % 6 == 5:
-            print('\n')
+            print()
         print(pos_tags[i], end=' ')
 
